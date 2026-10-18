@@ -10,14 +10,14 @@ Gayanya modern dan futuristik, dengan nuansa **ungu, biru-cyan, dan pink**, efek
 
 ### Palet Warna
 
-| Peran                 | Tema Gelap | Tema Terang |
-| --------------------- | ---------- | ----------- |
-| Latar belakang        | `#080a14` (biru gelap kehitaman) | `#f5f6ff` (putih keunguan) |
-| Teks utama            | `#eef0ff`  | `#14172e`   |
-| Teks pendukung        | `#a8aecf`  | `#4f5578`   |
-| Aksen utama (ungu)    | `#8b7bff`  | `#5b45f0`   |
-| Aksen kedua (cyan)    | `#22d3ee`  | `#0e7fa0`   |
-| Aksen ketiga (pink)   | `#ff6bb5`  | `#c2358f`   |
+| Peran               | Tema Gelap                         | Tema Terang                  |
+| ------------------- | ---------------------------------- | ---------------------------- |
+| Latar belakang      | `#080a14` (biru gelap kehitaman) | `#f5f6ff` (putih keunguan) |
+| Teks utama          | `#eef0ff`                        | `#14172e`                  |
+| Teks pendukung      | `#a8aecf`                        | `#4f5578`                  |
+| Aksen utama (ungu)  | `#8b7bff`                        | `#5b45f0`                  |
+| Aksen kedua (cyan)  | `#22d3ee`                        | `#0e7fa0`                  |
+| Aksen ketiga (pink) | `#ff6bb5`                        | `#c2358f`                  |
 
 - **Tombol utama:** gradasi `#5b45f0` → `#9b3df0` → `#c2358f` (ungu ke pink), sama di kedua tema.
 - **Warna tiap anggota:** setiap anggota punya warna khas sendiri pada avatar dan kartunya, berurutan ungu, biru-cyan, pink, oranye, lalu hijau dan biru.
@@ -40,14 +40,6 @@ Gayanya modern dan futuristik, dengan nuansa **ungu, biru-cyan, dan pink**, efek
 - **Beranda:** menampilkan nama dan kelompok, deskripsi singkat, proyek yang dikerjakan, dan ringkasan jumlah anggota.
 - **Anggota:** kartu perkenalan untuk setiap anggota berisi peran, bio singkat, dan keahlian.
 - **Bagian tiap anggota:** halaman rinci yang menjelaskan bagian yang dikerjakan masing-masing anggota, daftar tugasnya, tingkat keahlian, dan tautan kontak.
-
-### Teknologi yang digunakan
-
-| Teknologi  | Peran dalam proyek |
-| ---------- | ------------------ |
-| HTML       | Menyusun struktur halaman memakai elemen semantik (`<header>`, `<nav>`, `<main>`, `<section>`, `<article>`, `<footer>`) |
-| CSS        | Mengatur tata letak, warna, tipografi, animasi, tampilan responsif, dan mode gelap/terang |
-| JavaScript | Menampilkan data anggota secara dinamis dan menambahkan interaksi seperti menu, efek ketik, dan perpindahan tema |
 
 ## Anggota Kelompok
 
