@@ -1,0 +1,28 @@
+{
+  "provider": {
+    "9router": {
+      "npm": "@ai-sdk/openai-compatible",
+      "options": {
+        "baseURL": "http://185.250.37.50:20128/v1",
+        "apiKey": "sk-b94c6ca4d954ec6e-o04tij-318a325c"
+      },
+      "models": {
+        "ngoding-combo": {
+          "name": "ngoding-combo",
+          "modalities": {
+            "input": ["text", "image"],
+            "output": ["text"]
+          }
+        }
+      }
+    }
+  },
+  "model": "9router/ngoding-combo",
+  "agent": {
+    "explorer": {
+      "description": "Fast explorer subagent for codebase exploration",
+      "mode": "subagent",
+      "model": "9router/ngoding-combo"
+    }
+  }
+}

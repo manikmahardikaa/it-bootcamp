@@ -1,0 +1,457 @@
+/* =====================================================
+   1. VARIABEL (warna, font, ukuran) — tema gelap default
+   ===================================================== */
+:root {
+  color-scheme: dark;
+
+  --bg: #080a14;
+  --bg-2: #0e1122;
+  --surface: rgba(255, 255, 255, 0.055);
+  --surface-2: rgba(255, 255, 255, 0.1);
+  --border: rgba(255, 255, 255, 0.12);
+  --border-2: rgba(255, 255, 255, 0.24);
+  --text: #eef0ff;
+  --muted: #a8aecf;
+
+  --accent: #8b7bff;
+  --accent-2: #22d3ee;
+  --accent-3: #ff6bb5;
+  --glow: rgba(139, 123, 255, 0.22);
+  --tone-l: 72%;
+
+  --grad: linear-gradient(110deg, var(--accent), var(--accent-2), var(--accent-3), var(--accent));
+  --btn: linear-gradient(120deg, #5b45f0, #9b3df0 60%, #c2358f);
+  --shadow: 0 30px 80px -30px rgba(0, 0, 0, 0.75);
+
+  --radius: 22px;
+  --orbit-speed: 46s;
+
+  --font-body: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-display: "Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+
+  --bg: #f5f6ff;
+  --bg-2: #ebedfb;
+  --surface: rgba(255, 255, 255, 0.74);
+  --surface-2: rgba(255, 255, 255, 0.96);
+  --border: rgba(25, 28, 60, 0.12);
+  --border-2: rgba(25, 28, 60, 0.26);
+  --text: #14172e;
+  --muted: #4f5578;
+
+  --accent: #5b45f0;
+  --accent-2: #0e7fa0;
+  --accent-3: #c2358f;
+  --glow: rgba(91, 69, 240, 0.14);
+  --tone-l: 34%;
+
+  --shadow: 0 30px 70px -30px rgba(40, 40, 110, 0.3);
+}
+
+/* =====================================================
+   2. RESET & DASAR
+   ===================================================== */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font: 400 1rem/1.7 var(--font-body);
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4, p, ul, dl, dd { margin: 0; }
+ul { padding: 0; list-style: none; }
+a { color: inherit; text-decoration: none; }
+img { max-width: 100%; display: block; }
+button { font: inherit; color: inherit; cursor: pointer; }
+
+section[id], article[id] { scroll-margin-top: 90px; }
+
+:focus-visible {
+  outline: 2px solid var(--accent-2);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+.container { width: min(1140px, calc(100% - 2rem)); margin-inline: auto; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap;
+}
+
+.skip {
+  position: fixed; left: 1rem; top: -4rem; z-index: 100;
+  padding: 0.6rem 1rem; border-radius: 10px;
+  background: var(--text); color: var(--bg); font-weight: 600;
+  transition: top 0.2s;
+}
+.skip:focus { top: 1rem; }
+
+.noscript { text-align: center; padding: 2rem 1rem; color: var(--muted); }
+
+/* Gradient text yang bergerak pelan */
+.grad {
+  background: var(--grad);
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shine 7s linear infinite;
+}
+
+/* =====================================================
+   3. LATAR BELAKANG & PROGRESS BAR
+   ===================================================== */
+.bg { position: fixed; inset: 0; z-index: -1; overflow: hidden; background: var(--bg); }
+
+.blob {
+  position: absolute; border-radius: 50%; opacity: 0.55;
+  animation: drift 24s ease-in-out infinite; will-change: transform;
+}
+.b1 { width: 62vmax; height: 62vmax; top: -26vmax; left: -20vmax;
+      background: radial-gradient(circle, #5b45f0 0%, transparent 62%); }
+.b2 { width: 54vmax; height: 54vmax; top: 18vh; right: -22vmax; animation-delay: -8s;
+      background: radial-gradient(circle, #0891b2 0%, transparent 62%); }
+.b3 { width: 50vmax; height: 50vmax; bottom: -24vmax; left: 20vw; animation-delay: -15s;
+      background: radial-gradient(circle, #c2358f 0%, transparent 62%); }
+:root[data-theme="light"] .blob { opacity: 0.28; }
+
+.grid-bg {
+  position: absolute; inset: 0; opacity: 0.55;
+  background-image:
+    linear-gradient(var(--border) 1px, transparent 1px),
+    linear-gradient(90deg, var(--border) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(ellipse at 50% 25%, #000 5%, transparent 70%);
+  mask-image: radial-gradient(ellipse at 50% 25%, #000 5%, transparent 70%);
+}
+
+.progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 60;
+  background: var(--grad); transform-origin: 0 50%; transform: scaleX(0);
+}
+
+/* =====================================================
+   4. NAVIGASI
+   ===================================================== */
+.nav {
+  position: fixed; inset: 0 0 auto 0; z-index: 50;
+  padding: 0.9rem 0; border-bottom: 1px solid transparent;
+  transition: background 0.3s, border-color 0.3s, padding 0.3s;
+}
+.nav.scrolled {
+  padding: 0.55rem 0;
+  background: color-mix(in srgb, var(--bg) 78%, transparent);
+  -webkit-backdrop-filter: blur(14px) saturate(140%);
+  backdrop-filter: blur(14px) saturate(140%);
+  border-color: var(--border);
+}
+
+.nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+
+.logo { display: inline-flex; align-items: center; gap: 0.65rem; font: 700 1.1rem var(--font-display); }
+.logo-mark {
+  display: grid; place-items: center; width: 38px; height: 38px; border-radius: 12px;
+  background: var(--btn); color: #fff; font-size: 0.95rem;
+  box-shadow: 0 8px 24px -8px rgba(139, 91, 255, 0.8);
+}
+
+.menu { display: flex; gap: 0.3rem; padding: 0.3rem; border-radius: 999px; background: var(--surface); border: 1px solid var(--border); }
+.menu a {
+  padding: 0.4rem 1.1rem; border-radius: 999px; font-size: 0.95rem; font-weight: 500; color: var(--muted);
+  transition: color 0.2s, background 0.2s;
+}
+.menu a:hover { color: var(--text); }
+.menu a.active { color: var(--text); background: var(--surface-2); box-shadow: inset 0 0 0 1px var(--border-2); }
+
+.nav-actions { display: flex; gap: 0.5rem; }
+.icon-btn {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  transition: transform 0.2s, background 0.2s, border-color 0.2s;
+}
+.icon-btn:hover { transform: translateY(-2px); background: var(--surface-2); border-color: var(--border-2); }
+.icon-btn svg { width: 20px; height: 20px; }
+.icon-moon { display: none; }
+:root[data-theme="light"] .icon-sun { display: none; }
+:root[data-theme="light"] .icon-moon { display: block; }
+.menu-btn { display: none; }
+
+/* =====================================================
+   5. HERO (Beranda)
+   ===================================================== */
+.hero {
+  position: relative; display: flex; align-items: center;
+  min-height: 100vh; min-height: 100svh; padding: 7.5rem 0 4rem;
+}
+.hero::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(540px circle at var(--mx, 72%) var(--my, 28%), var(--glow), transparent 65%);
+}
+.hero-grid { position: relative; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 3rem; align-items: center; }
+
+.hero-copy > * { animation: rise 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.hero-copy > :nth-child(2) { animation-delay: 0.08s; }
+.hero-copy > :nth-child(3) { animation-delay: 0.16s; }
+.hero-copy > :nth-child(4) { animation-delay: 0.24s; }
+.hero-copy > :nth-child(5) { animation-delay: 0.32s; }
+.hero-copy > :nth-child(6) { animation-delay: 0.4s; }
+.hero-copy > :nth-child(7) { animation-delay: 0.48s; }
+
+.chip {
+  display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1.4rem;
+  padding: 0.4rem 1rem; border-radius: 999px; font-size: 0.88rem; font-weight: 500;
+  background: var(--surface); border: 1px solid var(--border); color: var(--muted);
+}
+.dot { width: 8px; height: 8px; border-radius: 50%; background: #34d399; box-shadow: 0 0 0 0 rgba(52, 211, 153, 0.7); animation: pulse 2s infinite; }
+
+h1 {
+  font: 700 clamp(2.7rem, 6.6vw, 5.2rem) / 1.03 var(--font-display);
+  letter-spacing: -0.035em;
+}
+
+.typing { margin-top: 1.2rem; font: 500 clamp(1.15rem, 2.4vw, 1.5rem) / 1.4 var(--font-display); color: var(--muted); min-height: 2.1em; }
+.typed { color: var(--text); }
+.caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 3px; vertical-align: -0.15em; background: var(--accent-2); animation: blink 1s steps(1) infinite; }
+
+.lead { margin-top: 0.4rem; max-width: 34em; color: var(--muted); font-size: 1.05rem; }
+.project { margin-top: 1rem; font-size: 0.95rem; color: var(--muted); }
+.project strong { color: var(--text); font-weight: 600; }
+
+.cta { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2rem; }
+.btn {
+  display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.85rem 1.5rem; border-radius: 999px;
+  font-weight: 600; font-size: 1rem; border: 1px solid transparent;
+  transition: transform 0.2s, box-shadow 0.25s, background 0.2s, border-color 0.2s;
+}
+.btn svg { width: 18px; height: 18px; transition: transform 0.2s; }
+.btn.primary { background: var(--btn); color: #fff; box-shadow: 0 14px 34px -12px rgba(139, 61, 240, 0.8); }
+.btn.primary:hover { transform: translateY(-3px); box-shadow: 0 20px 40px -12px rgba(139, 61, 240, 0.95); }
+.btn.primary:hover svg { transform: translateX(4px); }
+.btn.ghost { background: var(--surface); border-color: var(--border-2); }
+.btn.ghost:hover { transform: translateY(-3px); background: var(--surface-2); }
+
+.stats { display: flex; flex-wrap: wrap; gap: 0.8rem; margin-top: 2.6rem; }
+.stat { flex: 1 1 110px; max-width: 170px; padding: 0.9rem 1.1rem; border-radius: 16px; background: var(--surface); border: 1px solid var(--border); }
+.stat dt { order: 2; font-size: 0.82rem; color: var(--muted); }
+.stat dd { font: 700 2rem / 1.1 var(--font-display); }
+.stat { display: flex; flex-direction: column; }
+
+/* ---- Orbit anggota ---- */
+.hero-visual { position: relative; width: min(100%, 470px); aspect-ratio: 1; margin-inline: auto; padding: 34px; animation: rise 1s 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) both; }
+.orbit-box { position: relative; width: 100%; height: 100%; }
+.orbit-box::before, .orbit-box::after { content: ""; position: absolute; border-radius: 50%; border: 1px dashed var(--border-2); }
+.orbit-box::before { inset: 0; }
+.orbit-box::after { inset: 17%; opacity: 0.6; }
+
+.orbit-ring { position: absolute; inset: 0; animation: spin var(--orbit-speed) linear infinite; }
+.orbit-slot { position: absolute; inset: 0; transform: rotate(var(--a)); }
+.orbit-pos { position: absolute; top: 0; left: 50%; transform: translate(-50%, -50%) rotate(calc(var(--a) * -1)); }
+.orbit-face { display: block; animation: spin var(--orbit-speed) linear infinite reverse; }
+.orbit .avatar, .orbit-box .avatar { --s: clamp(50px, 13vw, 68px); }
+
+.orbit-core {
+  position: absolute; inset: 29%; display: grid; place-content: center; text-align: center; border-radius: 50%;
+  background: radial-gradient(circle at 30% 25%, var(--surface-2), var(--surface));
+  border: 1px solid var(--border-2);
+  box-shadow: 0 0 80px -10px var(--glow), inset 0 0 40px -10px var(--glow);
+  animation: bob 6s ease-in-out infinite;
+}
+.orbit-core strong { font: 700 clamp(2.4rem, 8vw, 3.6rem) / 1 var(--font-display); background: var(--grad); background-size: 250% auto; -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; animation: shine 7s linear infinite; }
+.orbit-core span { margin-top: 0.3rem; font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--muted); }
+
+/* =====================================================
+   6. AVATAR (dipakai di orbit, kartu, profil)
+   ===================================================== */
+.avatar {
+  --s: 72px;
+  display: inline-grid; place-items: center; flex: none;
+  width: var(--s); height: var(--s); border-radius: 50%; object-fit: cover;
+  font: 700 calc(var(--s) * 0.36) / 1 var(--font-display); color: #fff; letter-spacing: 0.02em;
+  background: linear-gradient(135deg, hsl(var(--h) 80% 52%), hsl(calc(var(--h) + 45) 80% 40%));
+  box-shadow: 0 0 0 3px var(--bg), 0 0 0 5px hsl(var(--h) 80% 62% / 0.55), 0 14px 30px -10px hsl(var(--h) 80% 50% / 0.7);
+}
+.avatar.lg { --s: 128px; }
+
+/* =====================================================
+   7. TICKER NAMA
+   ===================================================== */
+.ticker { overflow: hidden; border-block: 1px solid var(--border); background: var(--surface); padding: 0.9rem 0; }
+.ticker-track { display: flex; width: max-content; animation: marquee 38s linear infinite; }
+.ticker-track span {
+  display: inline-flex; align-items: center; gap: 1.6rem; padding-right: 1.6rem;
+  font: 700 1.15rem var(--font-display); letter-spacing: 0.14em; text-transform: uppercase; color: var(--muted);
+}
+.ticker-track span::after { content: "✦"; color: var(--accent); }
+
+/* =====================================================
+   8. SECTION UMUM
+   ===================================================== */
+.section { padding: clamp(4rem, 9vw, 7rem) 0 clamp(1rem, 3vw, 2rem); }
+.section-head { max-width: 40rem; margin-bottom: clamp(2rem, 5vw, 3.5rem); }
+.eyebrow { display: inline-block; margin-bottom: 0.8rem; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--accent-2); }
+h2 { font: 700 clamp(2rem, 4.6vw, 3.2rem) / 1.1 var(--font-display); letter-spacing: -0.025em; }
+.section-head p:last-child { margin-top: 1rem; color: var(--muted); font-size: 1.05rem; }
+
+/* Efek muncul saat discroll (hanya aktif kalau JS jalan) */
+.js .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms), transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) var(--d, 0ms); }
+.js .reveal.in { opacity: 1; transform: none; }
+
+/* Panel kaca */
+.panel { background: var(--surface); border: 1px solid var(--border); border-radius: var(--radius); box-shadow: var(--shadow); -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px); }
+
+/* =====================================================
+   9. KARTU ANGGOTA
+   ===================================================== */
+.cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.2rem; }
+
+.card {
+  --rx: 0deg; --ry: 0deg;
+  position: relative; display: flex; flex-direction: column; align-items: center; height: 100%;
+  padding: 2rem 1.5rem 1.6rem; text-align: center; overflow: hidden;
+  transform: perspective(900px) rotateX(var(--rx)) rotateY(var(--ry));
+  transition: transform 0.18s ease-out, border-color 0.3s, box-shadow 0.3s;
+}
+.card::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.3s;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 0%), hsl(var(--h) 85% 60% / 0.2), transparent 70%);
+}
+.card:hover { border-color: hsl(var(--h) 80% 62% / 0.6); box-shadow: 0 30px 70px -28px hsl(var(--h) 80% 50% / 0.55); }
+.card:hover::before { opacity: 1; }
+.card:focus-within { outline: 2px solid var(--accent-2); outline-offset: 4px; }
+
+.card h3 { margin-top: 1.3rem; font: 700 1.3rem / 1.2 var(--font-display); }
+.role { display: inline-block; margin-top: 0.55rem; padding: 0.2rem 0.8rem; border-radius: 999px; font-size: 0.82rem; font-weight: 600; color: hsl(var(--h) 85% var(--tone-l)); background: hsl(var(--h) 80% 55% / 0.15); border: 1px solid hsl(var(--h) 80% 60% / 0.3); }
+.card .bio { margin-top: 1rem; font-size: 0.93rem; color: var(--muted); }
+.tags { display: flex; flex-wrap: wrap; justify-content: center; gap: 0.4rem; margin-top: 1.1rem; }
+.tag { padding: 0.18rem 0.65rem; border-radius: 999px; font-size: 0.78rem; background: var(--surface-2); border: 1px solid var(--border); color: var(--muted); }
+
+.card-link { margin-top: auto; padding-top: 1.4rem; display: inline-flex; align-items: center; gap: 0.4rem; font-size: 0.92rem; font-weight: 600; color: hsl(var(--h) 85% var(--tone-l)); }
+.card-link::after { content: ""; position: absolute; inset: 0; }
+.card-link span { transition: transform 0.2s; }
+.card:hover .card-link span { transform: translateX(5px); }
+
+/* =====================================================
+   10. BAGIAN TIAP ANGGOTA
+   ===================================================== */
+.member {
+  position: relative; display: grid; grid-template-columns: minmax(250px, 330px) 1fr;
+  gap: clamp(1.5rem, 4vw, 3.5rem); padding: clamp(1.5rem, 4vw, 3rem); margin-bottom: 1.8rem; overflow: hidden;
+}
+.member.flip { grid-template-columns: 1fr minmax(250px, 330px); }
+.member.flip .profile { order: 2; }
+.member::before {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: radial-gradient(600px circle at 0% 0%, hsl(var(--h) 85% 55% / 0.14), transparent 60%);
+}
+.member.flip::before { background: radial-gradient(600px circle at 100% 0%, hsl(var(--h) 85% 55% / 0.14), transparent 60%); }
+
+.member-num {
+  position: absolute; bottom: -1.2rem; left: 1.2rem; z-index: 0; pointer-events: none; user-select: none;
+  font: 700 clamp(7rem, 17vw, 12rem) / 1 var(--font-display); color: transparent;
+  -webkit-text-stroke: 1.5px hsl(var(--h) 80% 60% / 0.3);
+}
+.member.flip .member-num { left: auto; right: 1.2rem; }
+
+.profile, .detail { position: relative; z-index: 1; }
+.profile { display: flex; flex-direction: column; align-items: center; text-align: center; align-self: start; }
+.profile h3 { margin-top: 1.6rem; font: 700 1.6rem / 1.2 var(--font-display); }
+
+.socials { display: flex; justify-content: center; gap: 0.5rem; margin-top: 1.4rem; }
+.socials a {
+  display: grid; place-items: center; width: 42px; height: 42px; border-radius: 50%;
+  background: var(--surface); border: 1px solid var(--border);
+  transition: transform 0.2s, background 0.2s, border-color 0.2s, color 0.2s;
+}
+.socials a:hover { transform: translateY(-3px); background: hsl(var(--h) 80% 52%); border-color: transparent; color: #fff; }
+.socials svg { width: 19px; height: 19px; }
+
+.part-label { font-size: 0.82rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: hsl(var(--h) 85% var(--tone-l)); }
+.part-title { margin-top: 0.4rem; font: 700 clamp(1.6rem, 3.4vw, 2.3rem) / 1.15 var(--font-display); letter-spacing: -0.02em; }
+.part-desc { margin-top: 0.9rem; color: var(--muted); max-width: 38em; }
+
+.detail h4 { margin: 2rem 0 0.9rem; font: 600 0.9rem var(--font-body); letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+
+.tasks { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 0.65rem; }
+.tasks li { display: flex; align-items: flex-start; gap: 0.7rem; padding: 0.8rem 1rem; border-radius: 14px; background: var(--surface); border: 1px solid var(--border); font-size: 0.96rem; transition: transform 0.2s, border-color 0.2s; }
+.tasks li:hover { transform: translateY(-3px); border-color: hsl(var(--h) 80% 62% / 0.55); }
+.tick { flex: none; display: grid; place-items: center; width: 24px; height: 24px; margin-top: 1px; border-radius: 50%; background: hsl(var(--h) 80% 55% / 0.2); color: hsl(var(--h) 85% var(--tone-l)); }
+.tick svg { width: 14px; height: 14px; }
+
+.skills { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.1rem 1.6rem; }
+.skill-top { display: flex; justify-content: space-between; margin-bottom: 0.4rem; font-size: 0.92rem; font-weight: 500; }
+.skill-top span:last-child { color: var(--muted); font-variant-numeric: tabular-nums; }
+.bar { height: 8px; border-radius: 99px; background: var(--surface-2); overflow: hidden; }
+.bar span { display: block; width: 0; height: 100%; border-radius: inherit; background: linear-gradient(90deg, hsl(var(--h) 85% 58%), hsl(calc(var(--h) + 50) 85% 58%)); transition: width 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) 0.35s; }
+.member.in .bar span, html:not(.js) .bar span { width: var(--lvl); }
+
+/* =====================================================
+   11. FOOTER
+   ===================================================== */
+.footer { margin-top: clamp(3rem, 7vw, 5rem); padding: 2rem 0; border-top: 1px solid var(--border); background: var(--surface); color: var(--muted); font-size: 0.92rem; }
+.footer-inner { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.8rem; }
+.footer a { color: var(--text); font-weight: 600; }
+.footer a:hover { color: var(--accent-2); }
+
+/* =====================================================
+   12. ANIMASI
+   ===================================================== */
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shine { to { background-position: 250% center; } }
+@keyframes blink { 50% { opacity: 0; } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes rise { from { opacity: 0; transform: translateY(26px); } to { opacity: 1; transform: none; } }
+@keyframes bob { 50% { transform: translateY(-10px); } }
+@keyframes drift { 50% { transform: translate(6vmax, 5vmax) scale(1.08); } }
+@keyframes pulse { 70% { box-shadow: 0 0 0 10px rgba(52, 211, 153, 0); } 100% { box-shadow: 0 0 0 0 rgba(52, 211, 153, 0); } }
+
+/* =====================================================
+   13. RESPONSIF
+   ===================================================== */
+@media (max-width: 900px) {
+  .hero { padding-top: 6.5rem; }
+  .hero-grid { grid-template-columns: 1fr; gap: 2rem; }
+  .hero-visual { width: min(100%, 400px); }
+
+  .member, .member.flip { grid-template-columns: 1fr; }
+  .member.flip .profile { order: 0; }
+  .member-num, .member.flip .member-num { left: auto; right: 1rem; top: 0.5rem; bottom: auto; font-size: 6rem; }
+}
+
+@media (max-width: 760px) {
+  .menu-btn { display: grid; }
+  .menu {
+    position: absolute; top: calc(100% + 0.7rem); left: 0; right: 0; flex-direction: column; gap: 0.2rem;
+    padding: 0.6rem; border-radius: 20px; background: var(--bg-2); border-color: var(--border-2); box-shadow: var(--shadow);
+    opacity: 0; visibility: hidden; transform: translateY(-8px); transition: opacity 0.2s, transform 0.2s, visibility 0.2s;
+  }
+  .nav.open .menu { opacity: 1; visibility: visible; transform: none; }
+  .menu a { padding: 0.8rem 1rem; border-radius: 14px; }
+  .nav.open { background: color-mix(in srgb, var(--bg) 85%, transparent); }
+  .logo-text { display: none; }
+  .cta .btn { flex: 1 1 auto; justify-content: center; }
+  .stat { max-width: none; }
+  .footer-inner { flex-direction: column; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+  .js .reveal { opacity: 1; transform: none; }
+  .progress { display: none; }
+}
